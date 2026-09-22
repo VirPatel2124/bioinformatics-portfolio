@@ -1,9 +1,8 @@
-
 # Bioinformatics Portfolio
 
-**Name:** Vir Patele  
-**Course:** BIOL 2406X — Introduction to Bioinformatics  
-**Semester:** Spring 2026  
+**Name:** Vir Patel  
+**Course:** BIOL 2406 — Computational Techniques in Genome Analysis 
+**Semester:** Fall 2026  
 
 ## About This Portfolio
 
