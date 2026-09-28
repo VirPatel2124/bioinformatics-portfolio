@@ -1,0 +1,216 @@
+virpatel@Bandit ~ % # Tutorial 1, Task 1
+virpatel@Bandit ~ % cd ~
+virpatel@Bandit ~ % ls
+Aftershoot Projects	Documents		Music			VirtualBox VMs
+Applications		Downloads		Pictures		Zotero
+ComfyUI-Shared		Library			Public
+Desktop			Movies			Shutter Encoder
+virpatel@Bandit ~ % # Tutorial 1, Task 2: move between same-level directories using relative and absolute paths
+virpatel@Bandit ~ % cd ~/Desktop 
+virpatel@Bandit Desktop % pwd
+/Users/virpatel/Desktop
+virpatel@Bandit Desktop % cd ../Downloads 
+virpatel@Bandit Downloads % pwd
+/Users/virpatel/Downloads
+virpatel@Bandit Downloads % cd ~/Desktop
+virpatel@Bandit Desktop % pwd
+/Users/virpatel/Desktop
+virpatel@Bandit Desktop % cd "$HOME/Downloads"
+virpatel@Bandit Downloads % pwd
+/Users/virpatel/Downloads
+virpatel@Bandit Downloads % # Tutorial 1, Task 3: compare cd /, cd ~, and cd using pwd
+virpatel@Bandit Downloads % cd /
+virpatel@Bandit / % pwd
+/
+virpatel@Bandit / % cd ~
+virpatel@Bandit ~ % pwd
+/Users/virpatel
+virpatel@Bandit ~ % cd /
+virpatel@Bandit / % pwd
+/
+virpatel@Bandit / % cd  
+virpatel@Bandit ~ % pwd
+/Users/virpatel
+virpatel@Bandit ~ % # Tutorial 1, Task 4: compare ls options
+virpatel@Bandit ~ % mkdir -p ~/tut1_ls_demo/nested
+virpatel@Bandit ~ % touch ~/tut1_ls_demo/alpha.txt ~/tut1_ls_demo/beta.txt ~/tut1_ls_demo/nested/gamma.txt
+virpatel@Bandit ~ % ls -l ~/tut1_ls_demo
+total 0
+-rw-r--r--  1 virpatel  staff   0 Sep 28 00:36 alpha.txt
+-rw-r--r--  1 virpatel  staff   0 Sep 28 00:36 beta.txt
+drwxr-xr-x  3 virpatel  staff  96 Sep 28 00:29 nested
+virpatel@Bandit ~ % ls -R ~/tut1_ls_demo
+alpha.txt	beta.txt	nested
+
+/Users/virpatel/tut1_ls_demo/nested:
+gamma.txt
+virpatel@Bandit ~ % ls -l -t -r ~/tut1_ls_demo
+total 0
+drwxr-xr-x  3 virpatel  staff  96 Sep 28 00:29 nested
+-rw-r--r--  1 virpatel  staff   0 Sep 28 00:36 alpha.txt
+-rw-r--r--  1 virpatel  staff   0 Sep 28 00:36 beta.txt
+virpatel@Bandit ~ % ls -lh ~/tut1_ls_demo
+total 0
+-rw-r--r--  1 virpatel  staff     0B Sep 28 00:36 alpha.txt
+-rw-r--r--  1 virpatel  staff     0B Sep 28 00:36 beta.txt
+drwxr-xr-x  3 virpatel  staff    96B Sep 28 00:29 nested
+virpatel@Bandit ~ % # Tutorial 1, Task 5: create directories and navigate with relative and absolute paths
+virpatel@Bandit ~ % mkdir -p ~/tut1_path_demo/alpha ~/tut1_path_demo/beta
+virpatel@Bandit ~ % cd ~/tut1_path_demo/alpha
+virpatel@Bandit alpha % pwd
+/Users/virpatel/tut1_path_demo/alpha
+virpatel@Bandit alpha % cd ../beta
+virpatel@Bandit beta % pwd
+/Users/virpatel/tut1_path_demo/beta
+virpatel@Bandit beta % cd "$HOME/tut1_path_demo/alpha"
+virpatel@Bandit alpha % pwd
+/Users/virpatel/tut1_path_demo/alpha
+virpatel@Bandit alpha % cd "$HOME/tut1_path_demo/beta"
+virpatel@Bandit beta % pwd
+/Users/virpatel/tut1_path_demo/beta
+virpatel@Bandit beta % # Tutorial 1, Task 6: safely remove a disposable file from Downloads
+virpatel@Bandit beta % touch ~/Downloads/tut1_delete_me.txt
+virpatel@Bandit beta % cd ~/Downloads
+virpatel@Bandit Downloads % ls tut1_delete_me.txt
+tut1_delete_me.txt
+virpatel@Bandit Downloads % rm -i tut1_delete_me.txt
+remove tut1_delete_me.txt? y
+virpatel@Bandit Downloads % test ! -e tut1_delete_me.txt && echo "Test file removed"
+Test file removed
+virpatel@Bandit Downloads % # Tutorial 1, Task 7: use tab completion to navigate to Desktop/unix
+virpatel@Bandit Downloads % cd ~
+virpatel@Bandit ~ % mkdir -p ~/Desktop/unix
+virpatel@Bandit ~ % cd ~/Desktop/unix
+virpatel@Bandit unix % pwd
+/Users/virpatel/Desktop/unix
+virpatel@Bandit unix % # Tutorial 1, Task 8: test ?, *, and ?? wildcards
+virpatel@Bandit unix % mkdir -p ~/Temp
+virpatel@Bandit unix % cd ~/Temp
+virpatel@Bandit Temp % touch fat fit feet
+virpatel@Bandit Temp % ls f?t
+fat	fit
+virpatel@Bandit Temp % ls f*t
+fat	feet	fit
+virpatel@Bandit Temp % ls f??t
+feet
+virpatel@Bandit Temp % # Tutorial 1, Task 9: move Temp3 into Desktop/Temp without changing directories
+virpatel@Bandit Temp % cd ~
+virpatel@Bandit ~ % mkdir -p ~/Desktop/Temp3 ~/Desktop/Temp
+virpatel@Bandit ~ % mv ~/Desktop/Temp3 ~/Desktop/Temp/
+virpatel@Bandit ~ % ls ~/Desktop/Temp
+Temp3
+virpatel@Bandit ~ % # Tutorial 1, Task 10: compare ls Desktop and ls Desktop/
+virpatel@Bandit ~ % cd ~
+virpatel@Bandit ~ % ls Desktop
+Screenshot 2026-09-28 at 12.37.06 AM.png	unix
+Temp
+virpatel@Bandit ~ % ls Desktop/
+Screenshot 2026-09-28 at 12.37.06 AM.png	unix
+Temp
+virpatel@Bandit ~ % # Tutorial 1, Task 11: remove a disposable file with a wildcard
+virpatel@Bandit ~ % touch ~/Desktop/unix/tut1_remove_me.tmp
+virpatel@Bandit ~ % cd ~/Desktop/unix
+virpatel@Bandit unix % ls
+tut1_remove_me.tmp
+virpatel@Bandit unix % rm -i tut1_*
+remove tut1_remove_me.tmp? y
+virpatel@Bandit unix % ls
+virpatel@Bandit unix % # Tutorial 1, Task 12: see what happens when cp is used without -R
+virpatel@Bandit unix % cd ~
+virpatel@Bandit ~ % mkdir -p ~/tut1_copy_test
+virpatel@Bandit ~ % cp ~/tut1_copy_test ~/tut1_copy_test_copy
+cp: /Users/virpatel/tut1_copy_test is a directory (not copied).
+virpatel@Bandit ~ % # Tutorial 1, Task 13: move At_proteins.fasta into Desktop/Data and verify it
+virpatel@Bandit ~ % mkdir -p ~/Desktop/Data
+virpatel@Bandit ~ % ls ~/Desktop/Data
+At_proteins.fasta
+virpatel@Bandit ~ % # Tutorial 1, Task 14: make rm ask for confirmation
+virpatel@Bandit ~ % alias rm='rm -i'
+virpatel@Bandit ~ % alias rm
+rm='rm -i'
+virpatel@Bandit ~ % touch ~/tut1_rm_test.txt
+virpatel@Bandit ~ % rm ~/tut1_rm_test.txt
+remove /Users/virpatel/tut1_rm_test.txt? y
+virpatel@Bandit ~ % # Tutorial 1, Task 15: create a profile file with useful aliases
+virpatel@Bandit ~ % nano ~/profile
+virpatel@Bandit ~ % less ~/profile
+virpatel@Bandit ~ % cat ~/profile
+# some useful command line short-cuts
+alias ls='ls -p'
+alias rm='rm -i'
+virpatel@Bandit ~ % # Tutorial 1, Task 16: load the profile and test its aliases
+virpatel@Bandit ~ % source ~/profile
+virpatel@Bandit ~ % ls ~/Desktop
+Data/						Temp/
+Screenshot 2026-09-28 at 12.37.06 AM.png	unix/
+virpatel@Bandit ~ % touch ~/tut1_profile_test.txt
+virpatel@Bandit ~ % rm ~/tut1_profile_test.txt
+remove /Users/virpatel/tut1_profile_test.txt? y
+virpatel@Bandit ~ % # Tutorial 1, Task 17: list hidden files and view profile files
+virpatel@Bandit ~ % cd ~
+virpatel@Bandit ~ % ls -a
+./			.Trash/			Downloads/		Temp/
+../			.zsh_history		Library/		tut1_copy_test/
+.CFUserTextEncoding	.zsh_sessions/		Movies/			tut1_ls_demo/
+.cups/			Aftershoot Projects/	Music/			tut1_path_demo/
+.DS_Store		Applications/		Pictures/		unix/
+.lesshst		ComfyUI-Shared/		profile			VirtualBox VMs/
+.oracle_jre_usage/	Desktop/		Public/			Zotero/
+.ssh/			Documents/		Shutter Encoder/
+virpatel@Bandit ~ % less ~/profile
+virpatel@Bandit ~ % # Tutorial 1, Task 18: source the profile from outside the home directory
+virpatel@Bandit ~ % cd ~/Desktop
+virpatel@Bandit Desktop % source ~/profile
+virpatel@Bandit Desktop % ls
+Data/						Temp/
+Screenshot 2026-09-28 at 12.37.06 AM.png	unix/
+virpatel@Bandit Desktop % # Tutorial 1, Task 19: create hello.sh
+virpatel@Bandit Desktop % mkdir -p ~/Code
+virpatel@Bandit Desktop % cd ~/Code
+virpatel@Bandit Code % nano hello.sh
+virpatel@Bandit Code % cat hello.sh
+# my first Unix shell script
+echo "Hello World"
+virpatel@Bandit Code % # Tutorial 1, Task 20: check permissions, make hello.sh executable, and run it with bash
+virpatel@Bandit Code % ls -l hello.sh
+-rw-r--r--  1 virpatel  staff  48 Sep 28 01:18 hello.sh
+virpatel@Bandit Code % chmod u+x hello.sh
+virpatel@Bandit Code % ls -l hello.sh
+-rwxr--r--  1 virpatel  staff  48 Sep 28 01:18 hello.sh
+virpatel@Bandit Code % bash hello.sh
+Hello World
+virpatel@Bandit Code % # Tutorial 1, Task 21: run the executable script with dot-slash
+virpatel@Bandit Code % ./hello.sh
+Hello World
+virpatel@Bandit Code % # Tutorial 1, Task 22: create sample files for the cleanup script
+virpatel@Bandit Code % cd ~/Code
+virpatel@Bandit Code % mkdir cleanup_practice
+virpatel@Bandit Code % cd cleanup_practice
+virpatel@Bandit cleanup_practice % mkdir Text Pictures Music
+virpatel@Bandit cleanup_practice % touch notes.txt photo.jpg song.mp3
+virpatel@Bandit cleanup_practice % ls
+Music/		notes.txt	photo.jpg	Pictures/	song.mp3	Text/
+virpatel@Bandit cleanup_practice % nano cleanup.sh
+virpatel@Bandit cleanup_practice % cat cleanup.sh
+#!/bin/bash
+mv *.txt Text
+mv *.jpg Pictures
+mv *.mp3 Music
+virpatel@Bandit cleanup_practice % # Tutorial 1, Task 23: show files before and after running cleanup.sh
+virpatel@Bandit cleanup_practice % ls
+cleanup.sh	notes.txt	Pictures/	Text/
+Music/		photo.jpg	song.mp3
+virpatel@Bandit cleanup_practice % chmod u+x cleanup.sh
+virpatel@Bandit cleanup_practice % ./cleanup.sh
+virpatel@Bandit cleanup_practice % ls
+cleanup.sh	Music/		Pictures/	Text/
+virpatel@Bandit cleanup_practice % ls Text Pictures Music
+Music:
+song.mp3
+
+Pictures:
+photo.jpg
+
+Text:
+notes.txt
+virpatel@Bandit cleanup_practice % 
