@@ -1,0 +1,138 @@
+Last login: Mon Sep 28 11:52:06 on ttys000
+virpatel@Bandit ~ % ssh patel.v9@login.explorer.northeastern.edu
+patel.v9@login.explorer.northeastern.edu's password:
+[patel.v9@explorer-01 ~]$ # Tutorial 3: start an interactive session on a compute node
+[patel.v9@explorer-01 ~]$ srun --pty /bin/bash
+srun: job 10657784 queued and waiting for resources
+srun: job 10657784 has been allocated resources
+[patel.v9@c0610 ~]$ # Tutorial 3 setup: create a working directory
+[patel.v9@c0610 ~]$ mkdir -p ~/BIOL2406_Tutorial3
+[patel.v9@c0610 ~]$ # Tutorial 3 setup: copy the FASTQ files into my working directory
+[patel.v9@c0610 ~]$ cd ~/BIOL2406_Tutorial3
+[patel.v9@c0610 BIOL2406_Tutorial3]$ cp /courses/BIOL2406.202710/data/untrimmed_fastq/*.fastq .
+[patel.v9@c0610 BIOL2406_Tutorial3]$ ls -l
+total 89
+-rwxr-xr-x 1 patel.v9 users 47552 Sep 28 12:44 SRR097977.fastq
+-rwxr-xr-x 1 patel.v9 users 43332 Sep 28 12:44 SRR098026.fastq
+
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 1.1: list files in /usr/bin that start with c
+[patel.v9@c0610 BIOL2406_Tutorial3]$ ls /usr/bin/c*
+/usr/bin/c++  /usr/bin/c89  /usr/bin/c99  /usr/bin/cal  /usr/bin/cat  /usr/bin/cp  /usr/bin/curl
+[output shortened for readability]
+
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 1.2: list files in /usr/bin that contain a
+[patel.v9@c0610 BIOL2406_Tutorial3]$ ls /usr/bin/*a*
+/usr/bin/a2x  /usr/bin/ab  /usr/bin/ac  /usr/bin/alias  /usr/bin/bash  /usr/bin/cat
+[output shortened for readability]
+
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 1.3: list files in /usr/bin that end with o
+[patel.v9@c0610 BIOL2406_Tutorial3]$ ls /usr/bin/*o
+/usr/bin/avinfo  /usr/bin/circo  /usr/bin/cpio  /usr/bin/echo  /usr/bin/info  /usr/bin/nano  /usr/bin/who
+[output shortened for readability]
+
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 1 bonus: list files in /usr/bin containing a or c
+[patel.v9@c0610 BIOL2406_Tutorial3]$ ls /usr/bin/*[ac]*
+/usr/bin/a2x  /usr/bin/ab  /usr/bin/ac  /usr/bin/alias  /usr/bin/cat  /usr/bin/nmcli
+[output shortened for readability]
+
+[patel.v9@c0610 BIOL2406_Tutorial3]$ cd ~
+[patel.v9@c0610 ~]$ # Tutorial 3, Exercise 2.1: show the last line of SRR097977.fastq
+[patel.v9@c0610 ~]$ tail -n 1 BIOL2406_Tutorial3/SRR097977.fastq
+C:CCC::CCCCCCCC<8?6A:C28C<608'&&&,'$
+
+[patel.v9@c0610 ~]$ # Tutorial 3, Exercise 2.2: print all files without changing directories
+[patel.v9@c0610 ~]$ cat BIOL2406_Tutorial3/*
+@SRR097977.1 209DTAAXX_Lenski2_1_7:8:3:710:178 length=36
+TATTCTGCCATAATGAAATTCGCCACTTGTTAGTGT
++SRR097977.1 209DTAAXX_Lenski2_1_7:8:3:710:178 length=36
+CCCCCCCCCCCCCCC>CCCCC7CCCCCCACA?5A5<
+[output shortened for readability]
+@SRR098026.249 HWUSI-EAS1599_1:2:1:2:1057 length=35
+CNCTNTATGCGTACGGCAGTGANNNNNNNGGAGAT
++SRR098026.249 HWUSI-EAS1599_1:2:1:2:1057 length=35
+A!@B!BBB@ABAB#########!!!!!!!######
+
+[patel.v9@c0610 ~]$ cd ~/BIOL2406_Tutorial3
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 3: find the three bases after the first TTTTT
+[patel.v9@c0610 BIOL2406_Tutorial3]$ grep -o 'TTTTT...' SRR097977.fastq | head -n 1
+TTTTTCAC
+
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 4.1: remove any old backup directory
+[patel.v9@c0610 BIOL2406_Tutorial3]$ rm -rf backup
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 4.2: create a backup of each FASTQ file
+[patel.v9@c0610 BIOL2406_Tutorial3]$ cp SRR098026.fastq SRR098026-backup.fastq
+[patel.v9@c0610 BIOL2406_Tutorial3]$ cp SRR097977.fastq SRR097977-backup.fastq
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 4.3: move the backup files into a backup directory
+[patel.v9@c0610 BIOL2406_Tutorial3]$ mkdir backup
+[patel.v9@c0610 BIOL2406_Tutorial3]$ mv *-backup.fastq backup
+[patel.v9@c0610 BIOL2406_Tutorial3]$ ls -l backup
+total 89
+-rwxr-xr-x 1 patel.v9 users 47552 Sep 28 12:54 SRR097977-backup.fastq
+-rwxr-xr-x 1 patel.v9 users 43332 Sep 28 12:54 SRR098026-backup.fastq
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 4.4: make all backup files write-protected
+[patel.v9@c0610 BIOL2406_Tutorial3]$ chmod -w backup/*-backup.fastq
+[patel.v9@c0610 BIOL2406_Tutorial3]$ ls -l backup
+total 89
+-r-xr-xr-x 1 patel.v9 users 47552 Sep 28 12:54 SRR097977-backup.fastq
+-r-xr-xr-x 1 patel.v9 users 43332 Sep 28 12:54 SRR098026-backup.fastq
+
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 5.1: find GNATNACCACTTCC and its sequence identifier
+[patel.v9@c0610 BIOL2406_Tutorial3]$ grep -B1 GNATNACCACTTCC SRR098026.fastq
+@SRR098026.245 HWUSI-EAS1599_1:2:1:2:801 length=35
+GNATNACCACTTCCAGTGCTGANNNNNNNGGGATG
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 5.2: find AAGTT and its identifiers in both FASTQ files
+[patel.v9@c0610 BIOL2406_Tutorial3]$ grep -B1 AAGTT *.fastq
+SRR097977.fastq-@SRR097977.11 209DTAAXX_Lenski2_1_7:8:3:247:351 length=36
+SRR097977.fastq:GATTGCTTTAATGAAAAAGTCATATAAGTTGCCATG
+--
+SRR097977.fastq-@SRR097977.67 209DTAAXX_Lenski2_1_7:8:3:544:566 length=36
+SRR097977.fastq:TTGTCCACGCTTTTCTATGTAAAGTTTATTTGCTTT
+--
+SRR097977.fastq-@SRR097977.68 209DTAAXX_Lenski2_1_7:8:3:724:110 length=36
+SRR097977.fastq:TGAAGCCTGCTTTTTTATACTAAGTTTGCATTATAA
+--
+SRR097977.fastq-@SRR097977.80 209DTAAXX_Lenski2_1_7:8:3:258:281 length=36
+SRR097977.fastq:GTGGCGCTGCTGCATAAGTTGGGTTATCAGGTCGTT
+--
+SRR097977.fastq-@SRR097977.92 209DTAAXX_Lenski2_1_7:8:3:353:318 length=36
+SRR097977.fastq:GGCAAAATGGTCCTCCAGCCAGGCCAGAAGCAAGTT
+--
+SRR097977.fastq-@SRR097977.139 209DTAAXX_Lenski2_1_7:8:3:703:655 length=36
+SRR097977.fastq:TTTATTTGTAAAGTTTTGTTGAAATAAGGGTTGTAA
+--
+SRR097977.fastq-@SRR097977.238 209DTAAXX_Lenski2_1_7:8:3:592:919 length=36
+SRR097977.fastq:TTCTTACCATCCTGAAGTTTTTTCATCTTCCCTGAT
+--
+SRR098026.fastq-@SRR098026.158 HWUSI-EAS1599_1:2:1:1:1505 length=35
+SRR098026.fastq:GNNNNNNNNCAAAGTTGATCNNNNNNNNNTGTGCG
+
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 6: count the sequences in SRR098026.fastq
+[patel.v9@c0610 BIOL2406_Tutorial3]$ wc -l SRR098026.fastq
+996 SRR098026.fastq
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 6 answer: 996 divided by 4 equals 249 sequences
+
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3 setup for Exercise 7: create bad_reads.txt
+[patel.v9@c0610 BIOL2406_Tutorial3]$ grep -B1 -A2 NNNNNNNNNN *.fastq > bad_reads.txt
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3 setup for Exercise 7: create seq_info.txt
+[patel.v9@c0610 BIOL2406_Tutorial3]$ for filename in *.fastq; do head -n 2 "${filename}" >> seq_info.txt; done
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 7: print the prefix of every txt file
+[patel.v9@c0610 BIOL2406_Tutorial3]$ for filename in *.txt; do name=$(basename "${filename}" .txt); echo "${name}"; done
+bad_reads
+seq_info
+
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3 setup for Exercise 8: add _2021 to the txt filenames
+[patel.v9@c0610 BIOL2406_Tutorial3]$ for filename in *.txt; do name=$(basename "${filename}" .txt); mv "${filename}" "${name}_2021.txt"; done
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 8: remove _2021 from all txt filenames
+[patel.v9@c0610 BIOL2406_Tutorial3]$ for filename in *_2021.txt; do name=$(basename "${filename}" _2021.txt); mv "${filename}" "${name}.txt"; done
+[patel.v9@c0610 BIOL2406_Tutorial3]$ ls *.txt
+bad_reads.txt  seq_info.txt
+
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 9: create README.txt with today's date
+[patel.v9@c0610 BIOL2406_Tutorial3]$ nano README.txt
+[patel.v9@c0610 BIOL2406_Tutorial3]$ cat README.txt
+September 28, 2026
+
+[patel.v9@c0610 BIOL2406_Tutorial3]$ # Tutorial 3, Exercise 10: create and run a bad-reads script with a completion message
+[patel.v9@c0610 BIOL2406_Tutorial3]$ nano bad-reads-script.sh
+[patel.v9@c0610 BIOL2406_Tutorial3]$ bash bad-reads-script.sh
+Script finished!
