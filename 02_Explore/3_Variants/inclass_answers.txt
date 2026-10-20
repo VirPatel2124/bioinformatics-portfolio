@@ -1,0 +1,26 @@
+Tutorial 3 - In-class exercise answers (Vir Patel)
+
+1. Map the untrimmed files to the genome. How do the alignments compare?
+   Overall alignment rates (bowtie2), samples SRR6805880 ... SRR6805885:
+     untrimmed (TGCAG left on):  22.00, 21.30, 22.30, 21.30, 21.20, 23.10 %   (mean ~21.9%)
+     trimmed (TGCAG removed):    21.80, 21.80, 22.80, 20.80, 21.10, 23.40 %   (mean ~22.0%)
+   The alignments are almost identical; removing the 5-nt TGCAG changed individual samples by less than
+   about 1 percentage point (some up, some down). Both rates are low (~20-23%) because the genome and reads
+   were subsampled for this exercise. Bowtie2 soft-clips (local mode) mismatching read ends, which is why
+   leaving the TGCAG on does not hurt the alignment much.
+
+2. Trim the sequences to 70 bp (like Xuereb et al. 2018) and map them. How do they compare to the first trimmed reads?
+   Command: cutadapt -g TGCAG -l 70 (adapter removed, then reads shortened to 70 bp); output files named *.tiny_trimmed70.fastq.
+   Overall alignment rates: 21.10, 21.20, 22.60, 20.50, 20.50, 22.60 %   (mean ~21.4%)
+   Compared with the first trimmed reads (mean ~22.0%), the 70 bp reads align slightly less well (about 0.2-1.0
+   points lower in every sample except SRR6805881, which is unchanged within 0.6). Shorter reads carry less
+   information, so fewer of them can be placed uniquely/confidently. The difference is small.
+
+3. Change the angsd SNP p-value. How many more/fewer SNPs?
+   The original run (SNP_pval 1e-2) recovered 9 SNPs (out of 71,450 sites analyzed).
+   Two (three) other p-values I tried:
+     SNP_pval 1e-1 (less strict): 54 SNPs
+     SNP_pval 1e-3 (stricter):     0 SNPs
+     SNP_pval 1e-6 (even stricter): 0 SNPs
+   Raising the p-value threshold (less strict) recovers many more SNPs (54 vs 9); lowering it (more strict)
+   removes all of them here, because with only 6 low-coverage individuals there is little statistical power.

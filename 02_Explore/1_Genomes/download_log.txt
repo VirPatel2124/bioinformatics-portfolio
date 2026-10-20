@@ -1,0 +1,71 @@
+# Download B. burgdorferi genome (NCBI FTP, .fna.gz)
+$ wget -nv -P borrelia https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/008/685/GCF_000008685.2_ASM868v2/GCF_000008685.2_ASM868v2_genomic.fna.gz
+2026-10-19 21:05:58 URL:https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/008/685/GCF_000008685.2_ASM868v2/GCF_000008685.2_ASM868v2_genomic.fna.gz [406156/406156] -> "borrelia/GCF_000008685.2_ASM868v2_genomic.fna.gz" [1]
+# Download C. elegans genome (NCBI FTP, .fna.gz)
+$ wget -nv -P celegans https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/002/985/GCF_000002985.6_WBcel235/GCF_000002985.6_WBcel235_genomic.fna.gz
+2026-10-19 21:05:59 URL:https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/002/985/GCF_000002985.6_WBcel235/GCF_000002985.6_WBcel235_genomic.fna.gz [31710738/31710738] -> "celegans/GCF_000002985.6_WBcel235_genomic.fna.gz" [1]
+# Download lambda phage genome (NCBI FTP, .fna.gz)
+$ wget -nv -P lambda https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/840/245/GCF_000840245.1_ViralProj14204/GCF_000840245.1_ViralProj14204_genomic.fna.gz
+2026-10-19 21:05:59 URL:https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/840/245/GCF_000840245.1_ViralProj14204/GCF_000840245.1_ViralProj14204_genomic.fna.gz [15299/15299] -> "lambda/GCF_000840245.1_ViralProj14204_genomic.fna.gz" [1]
+# Copy Sea_cuke directory from course data folder
+$ cp -r /courses/BIOL2406.202710/data/Sea_cuke sea_cuke/
+# Download human soft-masked genome from Ensembl
+$ wget -nv -P human https://ftp.ensembl.org/pub/release-116/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz
+2026-10-19 21:19:07 URL:https://ftp.ensembl.org/pub/release-116/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz [942484168/942484168] -> "human/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz" [1]
+# Download human GTF from Ensembl
+$ wget -nv -P human https://ftp.ensembl.org/pub/release-115/gtf/homo_sapiens/Homo_sapiens.GRCh38.115.gtf.gz
+2026-10-19 21:21:25 URL:https://ftp.ensembl.org/pub/release-115/gtf/homo_sapiens/Homo_sapiens.GRCh38.115.gtf.gz [104395529/104395529] -> "human/Homo_sapiens.GRCh38.115.gtf.gz" [1]
+# Download lambda reads (raw GitHub links, bowtie2 examples/reads)
+$ wget -nv -P reads https://raw.githubusercontent.com/BenLangmead/bowtie2/master/example/reads/reads_1.fq
+2026-10-19 21:21:26 URL:https://raw.githubusercontent.com/BenLangmead/bowtie2/master/example/reads/reads_1.fq [2285692/2285692] -> "reads/reads_1.fq" [1]
+$ wget -nv -P reads https://raw.githubusercontent.com/BenLangmead/bowtie2/master/example/reads/reads_2.fq
+2026-10-19 21:21:26 URL:https://raw.githubusercontent.com/BenLangmead/bowtie2/master/example/reads/reads_2.fq [2288866/2288866] -> "reads/reads_2.fq" [1]
+# Unzip the downloaded .gz files
+$ gunzip borrelia/GCF_000008685.2_ASM868v2_genomic.fna.gz celegans/GCF_000002985.6_WBcel235_genomic.fna.gz lambda/GCF_000840245.1_ViralProj14204_genomic.fna.gz human/Homo_sapiens.GRCh38.115.gtf.gz human/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz
+# List everything
+$ ls -lhR
+.:
+total 3.0K
+drwxr-xr-x 2 patel.v9 users 4.0K Oct 19 21:21 borrelia
+drwxr-xr-x 2 patel.v9 users 4.0K Oct 19 21:21 celegans
+-rw-r--r-- 1 patel.v9 users 3.0K Oct 19 21:22 download_log.txt
+drwxr-xr-x 2 patel.v9 users 4.0K Oct 19 21:22 human
+drwxr-xr-x 2 patel.v9 users 4.0K Oct 19 21:21 lambda
+drwxr-xr-x 2 patel.v9 users 4.0K Oct 19 21:21 reads
+drwxr-xr-x 2 patel.v9 users 4.0K Oct 19 21:05 sea_cuke
+
+./borrelia:
+total 1.5M
+-rw-r--r-- 1 patel.v9 users 1.5M Sep 11  2021 GCF_000008685.2_ASM868v2_genomic.fna
+
+./celegans:
+total 97M
+-rw-r--r-- 1 patel.v9 users 97M Apr 24  2015 GCF_000002985.6_WBcel235_genomic.fna
+
+./human:
+total 6.0G
+-rw-r--r-- 1 patel.v9 users 3.1G Jul 10  2025 Homo_sapiens.GRCh38.115.gtf
+-rw-r--r-- 1 patel.v9 users 3.0G Mar 23  2026 Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa
+
+./lambda:
+total 49K
+-rw-r--r-- 1 patel.v9 users 49K May 14  2015 GCF_000840245.1_ViralProj14204_genomic.fna
+
+./reads:
+total 4.4M
+-rw-r--r-- 1 patel.v9 users 2.2M Oct 19 21:21 reads_1.fq
+-rw-r--r-- 1 patel.v9 users 2.2M Oct 19 21:21 reads_2.fq
+
+./sea_cuke:
+total 0
+drwxr-xr-x 2 patel.v9 users 4.0K Oct 19 21:05 Sea_cuke
+
+./sea_cuke/Sea_cuke:
+total 23M
+-rwxr-xr-x 1 patel.v9 users 22M Oct 19 21:05 Ppar_tinygenome.fna.gz
+-rwxr-xr-x 1 patel.v9 users 86K Oct 19 21:05 SRR6805880.tiny.fastq.gz
+-rwxr-xr-x 1 patel.v9 users 85K Oct 19 21:05 SRR6805881.tiny.fastq.gz
+-rwxr-xr-x 1 patel.v9 users 85K Oct 19 21:05 SRR6805882.tiny.fastq.gz
+-rwxr-xr-x 1 patel.v9 users 86K Oct 19 21:05 SRR6805883.tiny.fastq.gz
+-rwxr-xr-x 1 patel.v9 users 85K Oct 19 21:05 SRR6805884.tiny.fastq.gz
+-rwxr-xr-x 1 patel.v9 users 86K Oct 19 21:05 SRR6805885.tiny.fastq.gz

@@ -1,0 +1,94 @@
+Loading fastqc/0.12.1
+  Loading requirement: OpenJDK/22.0.2 perl/5.40.0
+null
+null
+Started analysis of SRR1039508_1.fastq
+null
+null
+Started analysis of SRR1039508_2.fastq
+Started analysis of SRR1039516_1.fastq
+Started analysis of SRR1039516_2.fastq
+Approx 5% complete for SRR1039508_1.fastq
+Approx 5% complete for SRR1039508_2.fastq
+Approx 5% complete for SRR1039516_1.fastq
+Approx 5% complete for SRR1039516_2.fastq
+Approx 10% complete for SRR1039508_1.fastq
+Approx 10% complete for SRR1039508_2.fastq
+Approx 10% complete for SRR1039516_1.fastq
+Approx 10% complete for SRR1039516_2.fastq
+Approx 15% complete for SRR1039508_1.fastq
+Approx 15% complete for SRR1039508_2.fastq
+Approx 15% complete for SRR1039516_1.fastq
+Approx 15% complete for SRR1039516_2.fastq
+Approx 20% complete for SRR1039508_1.fastq
+Approx 20% complete for SRR1039508_2.fastq
+Approx 20% complete for SRR1039516_1.fastq
+Approx 25% complete for SRR1039508_1.fastq
+Approx 25% complete for SRR1039508_2.fastq
+Approx 20% complete for SRR1039516_2.fastq
+Approx 25% complete for SRR1039516_1.fastq
+Approx 30% complete for SRR1039508_1.fastq
+Approx 30% complete for SRR1039508_2.fastq
+Approx 25% complete for SRR1039516_2.fastq
+Approx 30% complete for SRR1039516_1.fastq
+Approx 35% complete for SRR1039508_1.fastq
+Approx 35% complete for SRR1039508_2.fastq
+Approx 30% complete for SRR1039516_2.fastq
+Approx 35% complete for SRR1039516_1.fastq
+Approx 40% complete for SRR1039508_2.fastq
+Approx 40% complete for SRR1039508_1.fastq
+Approx 35% complete for SRR1039516_2.fastq
+Approx 45% complete for SRR1039508_2.fastq
+Approx 45% complete for SRR1039508_1.fastq
+Approx 40% complete for SRR1039516_1.fastq
+Approx 40% complete for SRR1039516_2.fastq
+Approx 50% complete for SRR1039508_2.fastq
+Approx 50% complete for SRR1039508_1.fastq
+Approx 45% complete for SRR1039516_1.fastq
+Approx 55% complete for SRR1039508_2.fastq
+Approx 55% complete for SRR1039508_1.fastq
+Approx 45% complete for SRR1039516_2.fastq
+Approx 50% complete for SRR1039516_1.fastq
+Approx 60% complete for SRR1039508_2.fastq
+Approx 60% complete for SRR1039508_1.fastq
+Approx 50% complete for SRR1039516_2.fastq
+Approx 55% complete for SRR1039516_1.fastq
+Approx 65% complete for SRR1039508_2.fastq
+Approx 65% complete for SRR1039508_1.fastq
+Approx 60% complete for SRR1039516_1.fastq
+Approx 55% complete for SRR1039516_2.fastq
+Approx 70% complete for SRR1039508_2.fastq
+Approx 70% complete for SRR1039508_1.fastq
+Approx 65% complete for SRR1039516_1.fastq
+Approx 60% complete for SRR1039516_2.fastq
+Approx 75% complete for SRR1039508_2.fastq
+Approx 75% complete for SRR1039508_1.fastq
+Approx 70% complete for SRR1039516_1.fastq
+Approx 80% complete for SRR1039508_2.fastq
+Approx 80% complete for SRR1039508_1.fastq
+Approx 65% complete for SRR1039516_2.fastq
+Approx 75% complete for SRR1039516_1.fastq
+Approx 85% complete for SRR1039508_2.fastq
+Approx 85% complete for SRR1039508_1.fastq
+Approx 70% complete for SRR1039516_2.fastq
+Approx 90% complete for SRR1039508_2.fastq
+Approx 80% complete for SRR1039516_1.fastq
+Approx 90% complete for SRR1039508_1.fastq
+Approx 75% complete for SRR1039516_2.fastq
+Approx 95% complete for SRR1039508_2.fastq
+Approx 95% complete for SRR1039508_1.fastq
+Approx 85% complete for SRR1039516_1.fastq
+Approx 80% complete for SRR1039516_2.fastq
+Analysis complete for SRR1039508_2.fastq
+Analysis complete for SRR1039508_1.fastq
+Approx 90% complete for SRR1039516_1.fastq
+Approx 85% complete for SRR1039516_2.fastq
+Approx 95% complete for SRR1039516_1.fastq
+Approx 90% complete for SRR1039516_2.fastq
+Analysis complete for SRR1039516_1.fastq
+Approx 95% complete for SRR1039516_2.fastq
+Approx 100% complete for SRR1039516_2.fastq
+Analysis complete for SRR1039516_2.fastq
+SRR1039508 reads_1 22935521 reads_2 22935521
+SRR1039516 reads_1 27298970 reads_2 30043024
+SRR1039513 reads_1 16823088 reads_2 43356464

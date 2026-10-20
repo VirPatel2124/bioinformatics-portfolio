@@ -1,0 +1,324 @@
+[patel.v9@c0589 3_Variants]$ # Copy the Sea_cuke files from the course data folder into my own directory
+[patel.v9@c0589 3_Variants]$ cp /courses/BIOL2406.202710/data/Sea_cuke/* .
+
+[patel.v9@c0589 3_Variants]$ ls
+Ppar_tinygenome.fna.gz
+session_variants.txt
+SRR6805880.tiny.fastq.gz
+SRR6805881.tiny.fastq.gz
+SRR6805882.tiny.fastq.gz
+SRR6805883.tiny.fastq.gz
+SRR6805884.tiny.fastq.gz
+SRR6805885.tiny.fastq.gz
+
+[patel.v9@c0589 3_Variants]$ # Unzip the genome and read files
+[patel.v9@c0589 3_Variants]$ gunzip *.gz
+
+[patel.v9@c0589 3_Variants]$ ls
+Ppar_tinygenome.fna
+session_variants.txt
+SRR6805880.tiny.fastq
+SRR6805881.tiny.fastq
+SRR6805882.tiny.fastq
+SRR6805883.tiny.fastq
+SRR6805884.tiny.fastq
+SRR6805885.tiny.fastq
+
+[patel.v9@c0589 3_Variants]$ # Header information of the genome sequence (first 3 header lines, number of sequences)
+[patel.v9@c0589 3_Variants]$ grep '>' Ppar_tinygenome.fna | head -n 3 | cut -c1-120
+>KN893585.1 Parastichopus parvimensis isolate Sea Cucumber 01 unplaced genomic scaffold Scaffold11424, whole genome shot
+>KN897506.1 Parastichopus parvimensis isolate Sea Cucumber 01 unplaced genomic scaffold Scaffold15978, whole genome shot
+>JXUT01146130.1 Apostichopus parvimensis isolate Sea Cucumber 01 contig_146132, whole genome shotgun sequence
+
+[patel.v9@c0589 3_Variants]$ grep -c '>' Ppar_tinygenome.fna
+2000
+
+[patel.v9@c0589 3_Variants]$ # What the read files look like (first 8 lines = 2 reads)
+[patel.v9@c0589 3_Variants]$ head -n 8 SRR6805880.tiny.fastq
+@SRR6805880.2151832 OCD6D:00225:02960 length=80
+TGCAGAAGGCATGACCTTACCTACTGAATAAAAGATGAGACACCTTCTCATTGGCCAAGAAGAAACAACACTCTATTACA
++
+47:7775<59999995:6;;5:7664621111*/52245554404/33533/3/30436724461./,.:79999:4:9:
+@SRR6805880.576388 9F8KO:05533:11649 length=80
+TGCAGTCGTAATCTAGGAACACACCTACGGGATTATTTACTATTTTACAATCCATAGTCGGAGTCTACAAACAGTTACCA
++
+135445878868?;:7474889//+/665628958::2788:>;;09:9556-315447817999::;::28///27:18
+
+[patel.v9@c0589 3_Variants]$ # How many reads are in each fastq file (lines / 4)
+[patel.v9@c0589 3_Variants]$ for f in *.tiny.fastq; do echo $f $(( $(wc -l < $f) / 4 )); done
+SRR6805880.tiny.fastq 1000
+SRR6805881.tiny.fastq 1000
+SRR6805882.tiny.fastq 1000
+SRR6805883.tiny.fastq 1000
+SRR6805884.tiny.fastq 1000
+SRR6805885.tiny.fastq 1000
+
+[patel.v9@c0589 3_Variants]$ # RAW READ QUALITY CONTROL: load fastqc and run it on one file
+Loading fastqc/0.12.1
+  Loading requirement: OpenJDK/22.0.2 perl/5.40.0
+[patel.v9@c0589 3_Variants]$ fastqc SRR6805880.tiny.fastq 2>&1
+null
+Started analysis of SRR6805880.tiny.fastq
+Approx 100% complete for SRR6805880.tiny.fastq
+Analysis complete for SRR6805880.tiny.fastq
+
+[patel.v9@c0589 3_Variants]$ ls
+Ppar_tinygenome.fna
+session_variants.txt
+SRR6805880.tiny.fastq
+SRR6805880.tiny_fastqc.html
+SRR6805880.tiny_fastqc.zip
+SRR6805881.tiny.fastq
+SRR6805882.tiny.fastq
+SRR6805883.tiny.fastq
+SRR6805884.tiny.fastq
+SRR6805885.tiny.fastq
+
+[patel.v9@c0589 3_Variants]$ # Run fastqc on the remaining files with the wildcard
+[patel.v9@c0589 3_Variants]$ fastqc SRR680588*.fastq 2>&1
+null
+null
+Started analysis of SRR6805880.tiny.fastq
+null
+null
+null
+null
+Approx 100% complete for SRR6805880.tiny.fastq
+Analysis complete for SRR6805880.tiny.fastq
+Started analysis of SRR6805881.tiny.fastq
+Approx 100% complete for SRR6805881.tiny.fastq
+Analysis complete for SRR6805881.tiny.fastq
+Started analysis of SRR6805882.tiny.fastq
+Approx 100% complete for SRR6805882.tiny.fastq
+Analysis complete for SRR6805882.tiny.fastq
+Started analysis of SRR6805883.tiny.fastq
+Approx 100% complete for SRR6805883.tiny.fastq
+Analysis complete for SRR6805883.tiny.fastq
+Started analysis of SRR6805884.tiny.fastq
+Approx 100% complete for SRR6805884.tiny.fastq
+Analysis complete for SRR6805884.tiny.fastq
+Started analysis of SRR6805885.tiny.fastq
+Approx 100% complete for SRR6805885.tiny.fastq
+Analysis complete for SRR6805885.tiny.fastq
+
+[patel.v9@c0589 3_Variants]$ # TRIMMING: the first bases of every read are identical (TGCAG, a restriction-site/adapter remnant)
+[patel.v9@c0589 3_Variants]$ head -n 20 SRR6805881.tiny.fastq | awk 'NR%4==2' | cut -c1-30
+TGCAGGTCAGAAGAATTTGTACGGTATCGT
+TGCAGTAAGCTTTCTTAATTACTATATTCG
+TGCAGGTACGTAATATCTTCGTAGCATATA
+TGCAGTGAGGAGCCGACGTCACCATCAAGT
+TGCAGAAGGTATTATCGACATAAAAAATTC
+
+[patel.v9@c0589 3_Variants]$ # Activate cutadapt conda environment (anaconda module, then source activate)
+[patel.v9@c0589 3_Variants]$ # Test cutadapt on one file
+[patel.v9@c0589 3_Variants]$ cutadapt -g TGCAG SRR6805880.tiny.fastq -o SRR6805880.tiny_trimmed.fastq 2>&1 | head -n 25
+This is cutadapt 5.2 with Python 3.13.16
+Command line parameters: -g TGCAG SRR6805880.tiny.fastq -o SRR6805880.tiny_trimmed.fastq
+Processing single-end reads on 1 core ...
+
+=== Summary ===
+
+Total reads processed:                   1,000
+Reads with adapters:                     1,000 (100.0%)
+Reads written (passing filters):         1,000 (100.0%)
+
+Total basepairs processed:        80,000 bp
+Total written (filtered):         75,000 bp (93.8%)
+
+=== Adapter 1 ===
+
+Sequence: TGCAG; Type: regular 5'; Length: 5; Trimmed: 1000 times
+
+Minimum overlap: 3
+No. of allowed errors:
+1-5 bp: 0
+
+Overview of removed sequences
+length	count	expect	max.err	error counts
+5	1000	1.0	0	1000
+
+[patel.v9@c0589 3_Variants]$ # Trim all read files with a for loop
+[patel.v9@c0589 3_Variants]$ cutadapt -g TGCAG SRR6805880.tiny.fastq -o SRR6805880.tiny_trimmed.fastq
+Total reads processed:                   1,000
+Reads with adapters:                     1,000 (100.0%)
+Total basepairs processed:        80,000 bp
+Total written (filtered):         75,000 bp (93.8%)
+
+[patel.v9@c0589 3_Variants]$ cutadapt -g TGCAG SRR6805881.tiny.fastq -o SRR6805881.tiny_trimmed.fastq
+Total reads processed:                   1,000
+Reads with adapters:                     1,000 (100.0%)
+Total basepairs processed:        80,000 bp
+Total written (filtered):         75,000 bp (93.8%)
+
+[patel.v9@c0589 3_Variants]$ cutadapt -g TGCAG SRR6805882.tiny.fastq -o SRR6805882.tiny_trimmed.fastq
+Total reads processed:                   1,000
+Reads with adapters:                     1,000 (100.0%)
+Total basepairs processed:        80,000 bp
+Total written (filtered):         75,000 bp (93.8%)
+
+[patel.v9@c0589 3_Variants]$ cutadapt -g TGCAG SRR6805883.tiny.fastq -o SRR6805883.tiny_trimmed.fastq
+Total reads processed:                   1,000
+Reads with adapters:                     1,000 (100.0%)
+Total basepairs processed:        80,000 bp
+Total written (filtered):         75,000 bp (93.8%)
+
+[patel.v9@c0589 3_Variants]$ cutadapt -g TGCAG SRR6805884.tiny.fastq -o SRR6805884.tiny_trimmed.fastq
+Total reads processed:                   1,000
+Reads with adapters:                     1,000 (100.0%)
+Total basepairs processed:        80,000 bp
+Total written (filtered):         75,000 bp (93.8%)
+
+[patel.v9@c0589 3_Variants]$ cutadapt -g TGCAG SRR6805885.tiny.fastq -o SRR6805885.tiny_trimmed.fastq
+Total reads processed:                   1,000
+Reads with adapters:                     1,000 (100.0%)
+Total basepairs processed:        80,000 bp
+Total written (filtered):         75,000 bp (93.8%)
+
+[patel.v9@c0589 3_Variants]$ # Check the trimmed files and that read starts are no longer identical
+[patel.v9@c0589 3_Variants]$ ls *trimmed*
+SRR6805880.tiny_trimmed.fastq
+SRR6805881.tiny_trimmed.fastq
+SRR6805882.tiny_trimmed.fastq
+SRR6805883.tiny_trimmed.fastq
+SRR6805884.tiny_trimmed.fastq
+SRR6805885.tiny_trimmed.fastq
+
+[patel.v9@c0589 3_Variants]$ head -n 20 SRR6805881.tiny_trimmed.fastq | awk 'NR%4==2' | cut -c1-30
+GTCAGAAGAATTTGTACGGTATCGTTCTGG
+TAAGCTTTCTTAATTACTATATTCGACCTT
+GTACGTAATATCTTCGTAGCATATAAGAAC
+TGAGGAGCCGACGTCACCATCAAGTTACGC
+AAGGTATTATCGACATAAAAAATTCTACAA
+
+[patel.v9@c0589 3_Variants]$ # BUILD INDEX: load bowtie2 and index the genome
+[patel.v9@c0589 3_Variants]$ mkdir -p index
+
+[patel.v9@c0589 3_Variants]$ bowtie2-build Ppar_tinygenome.fna Ppar_tinygenome 2>&1 | tail -n 3
+Renaming Ppar_tinygenome.2.bt2.tmp to Ppar_tinygenome.2.bt2
+Renaming Ppar_tinygenome.rev.1.bt2.tmp to Ppar_tinygenome.rev.1.bt2
+Renaming Ppar_tinygenome.rev.2.bt2.tmp to Ppar_tinygenome.rev.2.bt2
+
+[patel.v9@c0589 3_Variants]$ mv Ppar_tinygenome*.bt2 index/
+
+[patel.v9@c0589 3_Variants]$ ls index
+Ppar_tinygenome.1.bt2
+Ppar_tinygenome.2.bt2
+Ppar_tinygenome.3.bt2
+Ppar_tinygenome.4.bt2
+Ppar_tinygenome.rev.1.bt2
+Ppar_tinygenome.rev.2.bt2
+
+[patel.v9@c0589 3_Variants]$ # MAP trimmed reads with a for loop
+[patel.v9@c0589 3_Variants]$ # sample SRR6805880
+[patel.v9@c0589 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U SRR6805880.tiny_trimmed.fastq -S SRR6805880.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    782 (78.20%) aligned 0 times
+    111 (11.10%) aligned exactly 1 time
+    107 (10.70%) aligned >1 times
+21.80% overall alignment rate
+
+[patel.v9@c0589 3_Variants]$ # sample SRR6805881
+[patel.v9@c0589 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U SRR6805881.tiny_trimmed.fastq -S SRR6805881.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    782 (78.20%) aligned 0 times
+    109 (10.90%) aligned exactly 1 time
+    109 (10.90%) aligned >1 times
+21.80% overall alignment rate
+
+[patel.v9@c0589 3_Variants]$ # sample SRR6805882
+[patel.v9@c0589 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U SRR6805882.tiny_trimmed.fastq -S SRR6805882.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    772 (77.20%) aligned 0 times
+    116 (11.60%) aligned exactly 1 time
+    112 (11.20%) aligned >1 times
+22.80% overall alignment rate
+
+[patel.v9@c0589 3_Variants]$ # sample SRR6805883
+[patel.v9@c0589 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U SRR6805883.tiny_trimmed.fastq -S SRR6805883.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    792 (79.20%) aligned 0 times
+    103 (10.30%) aligned exactly 1 time
+    105 (10.50%) aligned >1 times
+20.80% overall alignment rate
+
+[patel.v9@c0589 3_Variants]$ # sample SRR6805884
+[patel.v9@c0589 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U SRR6805884.tiny_trimmed.fastq -S SRR6805884.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    789 (78.90%) aligned 0 times
+    110 (11.00%) aligned exactly 1 time
+    101 (10.10%) aligned >1 times
+21.10% overall alignment rate
+
+[patel.v9@c0589 3_Variants]$ # sample SRR6805885
+[patel.v9@c0589 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U SRR6805885.tiny_trimmed.fastq -S SRR6805885.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    766 (76.60%) aligned 0 times
+    115 (11.50%) aligned exactly 1 time
+    119 (11.90%) aligned >1 times
+23.40% overall alignment rate
+
+[patel.v9@c0589 3_Variants]$ # Look at the first lines of one SAM file
+[patel.v9@c0589 3_Variants]$ head -n 6 SRR6805880.sam | cut -c1-140
+@HD	VN:1.5	SO:unsorted	GO:query
+@SQ	SN:KN893585.1	LN:22606
+@SQ	SN:KN897506.1	LN:3832
+@SQ	SN:JXUT01146130.1	LN:3328
+@SQ	SN:KN897010.1	LN:3247
+@SQ	SN:KN894258.1	LN:13593
+
+[patel.v9@c0589 3_Variants]$ # SAM to sorted BAM conversion with samtools
+[patel.v9@c0589 3_Variants]$ samtools view -bhS SRR6805880.sam | samtools sort -o SRR6805880.bam
+[patel.v9@c0589 3_Variants]$ samtools view -bhS SRR6805881.sam | samtools sort -o SRR6805881.bam
+[patel.v9@c0589 3_Variants]$ samtools view -bhS SRR6805882.sam | samtools sort -o SRR6805882.bam
+[patel.v9@c0589 3_Variants]$ samtools view -bhS SRR6805883.sam | samtools sort -o SRR6805883.bam
+[patel.v9@c0589 3_Variants]$ samtools view -bhS SRR6805884.sam | samtools sort -o SRR6805884.bam
+[patel.v9@c0589 3_Variants]$ samtools view -bhS SRR6805885.sam | samtools sort -o SRR6805885.bam
+[patel.v9@c0589 3_Variants]$ ls *.bam
+SRR6805880.bam
+SRR6805881.bam
+SRR6805882.bam
+SRR6805883.bam
+SRR6805884.bam
+SRR6805885.bam
+
+[patel.v9@c0589 3_Variants]$ # GENOTYPE LIKELIHOODS: activate angsd env, make bam file list
+[patel.v9@c0589 3_Variants]$ ls *.bam > bam.filelist
+
+[patel.v9@c0589 3_Variants]$ cat bam.filelist
+SRR6805880.bam
+SRR6805881.bam
+SRR6805882.bam
+SRR6805883.bam
+SRR6805884.bam
+SRR6805885.bam
+
+[patel.v9@c0589 3_Variants]$ # Run angsd to calculate genotype likelihoods and call SNPs (p-value 1e-2)
+[patel.v9@c0589 3_Variants]$ angsd -bam bam.filelist -GL 1 -out genotype_likelihoods -doMaf 2 -SNP_pval 1e-2 -doMajorMinor 1 2>&1 | tail -n 5
+	-> Arguments and parameters for all analysis are located in .arg file
+	-> Total number of sites analyzed: 71450
+	-> Number of sites retained after filtering: 9 
+	[ALL done] cpu-time used =  1.04 sec
+	[ALL done] walltime used =  1.00 sec
+
+[patel.v9@c0589 3_Variants]$ ls genotype_likelihoods*
+genotype_likelihoods.arg
+genotype_likelihoods.mafs.gz
+
+[patel.v9@c0589 3_Variants]$ # Look at the MAF file (minor allele frequencies) and count SNPs
+[patel.v9@c0589 3_Variants]$ zcat genotype_likelihoods.mafs.gz | head -n 6
+chromo	position	major	minor	unknownEM	pu-EM	nInd
+KN882277.1	41498	G	T	0.332737	3.127339e-03	3
+KN885472.1	10712	C	G	0.126253	1.118604e-03	6
+KN885472.1	10741	T	A	0.205533	2.729806e-03	6
+KN885472.1	10746	C	T	0.113382	1.394211e-03	6
+KN894013.1	22082	T	C	0.098327	3.551274e-03	2
+
+[patel.v9@c0589 3_Variants]$ zcat genotype_likelihoods.mafs.gz | tail -n +2 | wc -l
+9
+

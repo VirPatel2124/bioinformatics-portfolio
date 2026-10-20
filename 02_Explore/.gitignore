@@ -1,0 +1,23 @@
+# sequence / large data files are not pushed
+*.fa
+*.fna
+*.fasta
+*.fq
+*.fastq
+*.gz
+*.gtf
+*.sam
+*.bam
+*.bcf
+*.bt2
+*.sra
+*.zip
+*.html
+sra_files/
+fastq_files/
+aligned_output/
+GenomeDir/
+SRR*/
+# job logs
+output_*.txt
+error_*.txt

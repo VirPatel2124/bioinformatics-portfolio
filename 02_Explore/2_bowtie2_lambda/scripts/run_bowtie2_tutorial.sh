@@ -1,0 +1,46 @@
+#!/bin/bash
+mkdir -p ~/02_Explore/2_bowtie2_lambda && cd ~/02_Explore/2_bowtie2_lambda
+G=../1_Genomes/lambda/GCF_000840245.1_ViralProj14204_genomic.fna
+R1=../1_Genomes/reads/reads_1.fq
+R2=../1_Genomes/reads/reads_2.fq
+run() { echo "\$ $*"; eval "$*"; echo; }
+echo "# Peek at the lambda phage genome (first lines)"
+run "head -n 4 $G | cut -c1-100"
+echo "# Peek at the first fastq file (first 8 lines = 2 reads)"
+run "head -n 8 $R1"
+echo "# Peek at the second fastq file (first 8 lines = 2 reads)"
+run "head -n 8 $R2"
+echo "# Length of the lambda phage genome: remove the header line and newlines, then count characters"
+run "grep -v '>' $G | tr -d '\n' | wc -c"
+echo "# Number of reads in reads_1.fq: each read is 4 lines, so divide the line count by 4"
+run "echo \$(( \$(wc -l < $R1) / 4 ))"
+echo "# Number of reads in reads_2.fq"
+run "echo \$(( \$(wc -l < $R2) / 4 ))"
+echo "# Load bowtie2 module"
+module load bowtie2/2.5.4
+run "module list 2>&1"
+echo "# Index the lambda genome with bowtie2-build (prefix lambda_virus)"
+run "bowtie2-build $G lambda_virus 2>&1 | tail -n 8"
+echo "# Check the six new index files"
+run "ls lambda_virus*.bt2"
+echo "# Align unpaired reads (reads_1.fq) to the indexed genome, SAM output eg1.sam"
+run "bowtie2 -x lambda_virus -U $R1 -S eg1.sam 2>&1"
+echo "# Look at the first lines of the SAM file (header lines start with @)"
+run "head -n 8 eg1.sam | cut -c1-150"
+echo "# Align paired-end reads to the genome, SAM output eg2.sam (different name so eg1.sam is not overwritten)"
+run "bowtie2 -x lambda_virus -1 $R1 -2 $R2 -S eg2.sam 2>&1"
+echo "# Load samtools and bcftools (keeping bowtie2 loaded)"
+module load samtools/1.21 bcftools/1.21
+run "module list 2>&1"
+echo "# Convert the paired-end SAM file to BAM"
+run "samtools view -bS eg2.sam > eg2.bam"
+echo "# Sort the BAM file"
+run "samtools sort eg2.bam -o eg2.sorted.bam"
+echo "# Call variants with bcftools mpileup piped to bcftools view"
+run "bcftools mpileup -f $G eg2.sorted.bam | bcftools view -Ov - > eg2.raw.bcf"
+echo "# View the variants and save them to variants.txt"
+run "bcftools view eg2.raw.bcf > variants.txt"
+echo "# View the file (header lines start with ##; first variant records shown)"
+run "grep -v '^##' variants.txt | head -n 15 | cut -c1-160"
+echo "# Number of variant records called"
+run "grep -vc '^#' variants.txt"

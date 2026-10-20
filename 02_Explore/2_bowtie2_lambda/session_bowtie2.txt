@@ -1,0 +1,145 @@
+[patel.v9@c0604 2_bowtie2_lambda]$ # Peek at the lambda phage genome (first lines)
+[patel.v9@c0604 2_bowtie2_lambda]$ head -n 4 ../1_Genomes/lambda/GCF_000840245.1_ViralProj14204_genomic.fna | cut -c1-100
+>NC_001416.1 Enterobacteria phage lambda, complete genome
+GGGCGGCGACCTCGCGGGTTTTCGCTATTTATGAAAATTTTCCGGTTTAAGGCGTTTCCGTTCTTCTTCGTCATAACTTA
+ATGTTTTTATTTAAAATACCCTCTGAAAAGAAAGGAAACGACAGGTGCTGAAAGCGAGGCTTTTTGGCCTCTGTCGTTTC
+CTTTCTCTGTTTTTGTCCGTGGAATGAACAATGGAAGTCAACAAAAAGCAGCTGGCTGACATTTTCGGTGCGAGTATCCG
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Peek at the first fastq file (first 8 lines = 2 reads)
+[patel.v9@c0604 2_bowtie2_lambda]$ head -n 8 ../1_Genomes/reads/reads_1.fq
+@r1
+TGAATGCGAACTCCGGGACGCTCAGTAATGTGACGATAGCTGAAAACTGTACGATAAACNGTACGCTGAGGGCAGAAAAAATCGTCGGGGACATTNTAAAGGCGGCGAGCGCGGCTTTTCCG
++
++"@6<:27(F&5)9)"B:%B+A-%5A?2$HCB0B+0=D<7E/<.03#!.F77@6B==?C"7>;))%;,3-$.A06+<-1/@@?,26">=?*@'0;$:;??G+:#+(A?9+10!8!?()?7C>
+@r2
+NTTNTGATGCGGGCTTGTGGAGTTCAGCCGATCTGACTTATGTCATTACCTATGAAATGTGAGGACGCTATGCCTGTACCAAATCCTACAATGCCGGTGAAAGGTGCCGGGATCACCCTGTGGGTTTATAAGGGGATCGGTGACCCCTACGCGAATCCGCTTTCAGACGTTGACTGGTCGCGTCTGGCAAAAGTTAAAGACCTGACGCCCGGCGAACTGACCGCTGAGNCCTATGACGACAGCTATCTCGATGATGAAGATGCAGACTGGACTGC
++
+(#!!'+!$""%+(+)'%)%!+!(&++)''"#"#&#"!'!("%'""("+&%$%*%%#$%#%#!)*'(#")(($&$'&%+&#%*)*#*%*')(%+!%%*"$%"#+)$&&+)&)*+!"*)!*!("&&"*#+"&"'(%)*("'!$*!!%$&&&$!!&&"(*"$&"#&!$%'%"#)$#+%*+)!&*)+(""#!)!%*#"*)*')&")($+*%%)!*)!('(%""+%"$##"#+(('!*(($*'!"*('"+)&%#&$+('**$$&+*&!#%)')'(+(!%+
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Peek at the second fastq file (first 8 lines = 2 reads)
+[patel.v9@c0604 2_bowtie2_lambda]$ head -n 8 ../1_Genomes/reads/reads_2.fq
+@r1
+NAACGTCAGCGGAAGCACCACTATCTGGCGATCAAAAGGATGGTCATCGGTCACGGTGACAGTACGGGTACCTGACGGCCAGTCCACACTGCTTTCACGCTGGCGCGGNAAAGCCGCGCTCGCCGCCTNTACNATGTCCCCGACGATTTTTTCCGCCCTCAGCGTACCGTTTATCGTACAGTTTTCAGCTATCGTCAC
++
+&?$F&9AC8H49@5<*>=E;2/G+;9?&8D.;E!2:0B/)++#F-><E,-/&F:&/#B=*'C?@$0!+#1?.ABC?:-?9GA?,11.2>3$&@-'6;!6@D?&#*E:C#9-4&8?"))H>H9-->((E99;:@::1=1-!+$@$8+#@%(<B,+%6!>@0G*D5A'(>9AC<;@01:7@:@0D&D=@:>7"1)D+9+B
+@r2
+GCANTCCAGTCTGCATCTTCATCATCGAGATAGCTGTCGTCATAGGACTCAGCGGTCAGTTCGCCGGGCGTCAGGTCTTTAACTTTTGCCAGACGCGACCAGTCAACGTCTGAAAGCGGATTCGCGTAAGGGTCACCGCTCCCCTTATAAACCCACAGGGTGGTCCCGGCACCTTTCACCGGCATTAT
++
+%-&7%D%5D@%:9.#F(5B/(;"=C@G5"/-7248$;D7%7-A8&=A1;=1$('(9)E,'(2>=!98A7$652">"+G<9=>7<64@#&$<58(*$*&!2)*BE';$@69)EAG*+?5C8E@'>02$E755%(0$E0H7=9HH*7182)((#A2=>E=%DD79106=.*3"1(6E.HB44-##)F$<2
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Length of the lambda phage genome: remove the header line and newlines, then count characters
+[patel.v9@c0604 2_bowtie2_lambda]$ grep -v '>' ../1_Genomes/lambda/GCF_000840245.1_ViralProj14204_genomic.fna | tr -d '\n' | wc -c
+48502
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Number of reads in reads_1.fq: each read is 4 lines, so divide the line count by 4
+[patel.v9@c0604 2_bowtie2_lambda]$ echo $(( $(wc -l < ../1_Genomes/reads/reads_1.fq) / 4 ))
+10000
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Number of reads in reads_2.fq
+[patel.v9@c0604 2_bowtie2_lambda]$ echo $(( $(wc -l < ../1_Genomes/reads/reads_2.fq) / 4 ))
+10000
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Load bowtie2 module
+[patel.v9@c0604 2_bowtie2_lambda]$ module list 2>&1
+Currently Loaded Modulefiles:
+ 1) explorer/1.0   2) bowtie2/2.5.4  
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Index the lambda genome with bowtie2-build (prefix lambda_virus)
+[patel.v9@c0604 2_bowtie2_lambda]$ bowtie2-build ../1_Genomes/lambda/GCF_000840245.1_ViralProj14204_genomic.fna lambda_virus 2>&1 | tail -n 8
+    reverse: 1
+Total time for backward call to driver() for mirror index: 00:00:00
+Renaming lambda_virus.3.bt2.tmp to lambda_virus.3.bt2
+Renaming lambda_virus.4.bt2.tmp to lambda_virus.4.bt2
+Renaming lambda_virus.1.bt2.tmp to lambda_virus.1.bt2
+Renaming lambda_virus.2.bt2.tmp to lambda_virus.2.bt2
+Renaming lambda_virus.rev.1.bt2.tmp to lambda_virus.rev.1.bt2
+Renaming lambda_virus.rev.2.bt2.tmp to lambda_virus.rev.2.bt2
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Check the six new index files
+[patel.v9@c0604 2_bowtie2_lambda]$ ls lambda_virus*.bt2
+lambda_virus.1.bt2
+lambda_virus.2.bt2
+lambda_virus.3.bt2
+lambda_virus.4.bt2
+lambda_virus.rev.1.bt2
+lambda_virus.rev.2.bt2
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Align unpaired reads (reads_1.fq) to the indexed genome, SAM output eg1.sam
+[patel.v9@c0604 2_bowtie2_lambda]$ bowtie2 -x lambda_virus -U ../1_Genomes/reads/reads_1.fq -S eg1.sam 2>&1
+10000 reads; of these:
+  10000 (100.00%) were unpaired; of these:
+    596 (5.96%) aligned 0 times
+    9404 (94.04%) aligned exactly 1 time
+    0 (0.00%) aligned >1 times
+94.04% overall alignment rate
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Look at the first lines of the SAM file (header lines start with @)
+[patel.v9@c0604 2_bowtie2_lambda]$ head -n 8 eg1.sam | cut -c1-150
+@HD	VN:1.5	SO:unsorted	GO:query
+@SQ	SN:NC_001416.1	LN:48502
+@PG	ID:bowtie2	PN:bowtie2	VN:2.5.4	CL:"/shared/EL9/explorer/bowtie2/2.5.4/src/bowtie2-2.5.4-linux-x86_64/bowtie2-align-s --wrapper basic-0 -x lambda_v
+r1	0	NC_001416.1	18401	42	122M	*	0	0	TGAATGCGAACTCCGGGACGCTCAGTAATGTGACGATAGCTGAAAACTGTACGATAAACNGTACGCTGAGGGCAGAAAAAATCGTCGGGGACATTNTAAAGGCGGCGAGCGCG
+r2	0	NC_001416.1	8886	42	275M	*	0	0	NTTNTGATGCGGGCTTGTGGAGTTCAGCCGATCTGACTTATGTCATTACCTATGAAATGTGAGGACGCTATGCCTGTACCAAATCCTACAATGCCGGTGAAAGGTGCCGGGATC
+r3	16	NC_001416.1	11599	42	338M	*	0	0	GGGCGCGTTACTGGGATGATCGTGAAAAGGCCCGTCTTGCGCTTGAAGCCGCCCGAAAGAAGGCTGAGCAGCAGACTCAAGAGGAGAAAAATGCGCAGCAGCGGAGCGATAC
+r4	0	NC_001416.1	40075	42	184M	*	0	0	GGGCCAATGCGCTTACTGATGCGGAATTACGCCGTAAGGCCGCAGATGAGCTTGTCCATATGACTGCGAGAATTAACNGTGGTGAGGCGATCCCTGAACCAGTAAAACAACTT
+r5	0	NC_001416.1	48010	42	138M	*	0	0	GTCAGGAAAGTGGTAAAACTGCAACTCAATTACTGCAATGCCCTCGTAATTAAGTGAATTTACAATATCGTCCTGTTCGGAGGGAAGAACGCGGGATGTTCATTCTTCATCAC
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Align paired-end reads to the genome, SAM output eg2.sam (different name so eg1.sam is not overwritten)
+[patel.v9@c0604 2_bowtie2_lambda]$ bowtie2 -x lambda_virus -1 ../1_Genomes/reads/reads_1.fq -2 ../1_Genomes/reads/reads_2.fq -S eg2.sam 2>&1
+10000 reads; of these:
+  10000 (100.00%) were paired; of these:
+    834 (8.34%) aligned concordantly 0 times
+    9166 (91.66%) aligned concordantly exactly 1 time
+    0 (0.00%) aligned concordantly >1 times
+    ----
+    834 pairs aligned concordantly 0 times; of these:
+      42 (5.04%) aligned discordantly 1 time
+    ----
+    792 pairs aligned 0 times concordantly or discordantly; of these:
+      1584 mates make up the pairs; of these:
+        1005 (63.45%) aligned 0 times
+        579 (36.55%) aligned exactly 1 time
+        0 (0.00%) aligned >1 times
+94.97% overall alignment rate
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Load samtools and bcftools (keeping bowtie2 loaded)
+[patel.v9@c0604 2_bowtie2_lambda]$ module list 2>&1
+Currently Loaded Modulefiles:
+ 1) explorer/1.0   2) bowtie2/2.5.4   3) samtools/1.21   4) bcftools/1.21  
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Convert the paired-end SAM file to BAM
+[patel.v9@c0604 2_bowtie2_lambda]$ samtools view -bS eg2.sam > eg2.bam
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Sort the BAM file
+[patel.v9@c0604 2_bowtie2_lambda]$ samtools sort eg2.bam -o eg2.sorted.bam
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Call variants with bcftools mpileup piped to bcftools view
+[patel.v9@c0604 2_bowtie2_lambda]$ bcftools mpileup -f ../1_Genomes/lambda/GCF_000840245.1_ViralProj14204_genomic.fna eg2.sorted.bam | bcftools view -Ov - > eg2.raw.bcf
+[mpileup] 1 samples in 1 input files
+[mpileup] maximum number of reads per input file set to -d 250
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # View the variants and save them to variants.txt
+[patel.v9@c0604 2_bowtie2_lambda]$ bcftools view eg2.raw.bcf > variants.txt
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # View the file (header lines start with ##; first variant records shown)
+[patel.v9@c0604 2_bowtie2_lambda]$ grep -v '^##' variants.txt | head -n 15 | cut -c1-160
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	eg2.sorted.bam
+NC_001416.1	1	.	G	A,<*>	0	.	DP=1;I16=0,0,1,0,0,0,7,49,0,0,24,576,0,0,0,0;QS=0,1,0;SGB=-0.379885;MQ0F=0	PL:AD	7,3,0,7,3,7:0,1,0
+NC_001416.1	2	.	G	A,<*>	0	.	DP=2;I16=0,0,1,0,0,0,1,1,0,0,24,576,0,0,1,1;QS=0,1,0;SGB=-0.379885;MQ0F=0	PL:AD	4,3,0,4,3,4:0,1,0
+NC_001416.1	3	.	G	T,<*>	0	.	DP=2;I16=1,0,1,0,5,25,4,16,42,1764,24,576,9,81,2,4;QS=0.555556,0.444444,0;SGB=-0.379885;RPBZ=-1;MQBZ=-1;BQBZ=-1;SCBZ=0;MQ0F=0	PL:AD	
+NC_001416.1	4	.	C	<*>	0	.	DP=3;I16=2,0,0,0,5,13,0,0,66,2340,0,0,13,109,0,0;QS=1,0;MQ0F=0	PL:AD	0,6,7:2,0
+NC_001416.1	5	.	G	<*>	0	.	DP=3;I16=1,0,0,0,1,1,0,0,42,1764,0,0,11,121,0,0;QS=1,0;MQ0F=0	PL:AD	0,3,4:1,0
+NC_001416.1	6	.	G	<*>	0	.	DP=3;I16=1,0,0,0,5,25,0,0,42,1764,0,0,12,144,0,0;QS=1,0;MQ0F=0	PL:AD	0,3,5:1,0
+NC_001416.1	7	.	C	<*>	0	.	DP=3;I16=1,0,0,0,1,1,0,0,42,1764,0,0,13,169,0,0;QS=1,0;MQ0F=0	PL:AD	0,3,4:1,0
+NC_001416.1	8	.	G	<*>	0	.	DP=3;I16=1,0,0,0,1,1,0,0,42,1764,0,0,14,196,0,0;QS=1,0;MQ0F=0	PL:AD	0,3,4:1,0
+NC_001416.1	9	.	A	<*>	0	.	DP=3;I16=2,0,0,0,14,116,0,0,66,2340,0,0,39,801,0,0;QS=1,0;MQ0F=0	PL:AD	0,6,12:2,0
+NC_001416.1	10	.	C	<*>	0	.	DP=3;I16=3,0,0,0,8,26,0,0,108,4104,0,0,47,917,0,0;QS=1,0;MQ0F=0	PL:AD	0,9,9:3,0
+NC_001416.1	11	.	C	<*>	0	.	DP=3;I16=3,0,0,0,25,237,0,0,108,4104,0,0,49,963,0,0;QS=1,0;MQ0F=0	PL:AD	0,9,20:3,0
+NC_001416.1	12	.	T	<*>	0	.	DP=3;I16=3,0,0,0,34,966,0,0,108,4104,0,0,51,1013,0,0;QS=1,0;MQ0F=0	PL:AD	0,9,34:3,0
+NC_001416.1	13	.	C	<*>	0	.	DP=3;I16=3,0,0,0,26,260,0,0,108,4104,0,0,53,1067,0,0;QS=1,0;MQ0F=0	PL:AD	0,9,21:3,0
+NC_001416.1	14	.	G	<*>	0	.	DP=3;I16=3,0,0,0,25,227,0,0,108,4104,0,0,55,1125,0,0;QS=1,0;MQ0F=0	PL:AD	0,9,20:3,0
+
+[patel.v9@c0604 2_bowtie2_lambda]$ # Number of variant records called
+[patel.v9@c0604 2_bowtie2_lambda]$ grep -vc '^#' variants.txt
+48561
+

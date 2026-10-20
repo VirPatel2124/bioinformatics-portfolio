@@ -1,0 +1,169 @@
+[patel.v9@c0606 3_Variants]$ # IN-CLASS EXERCISE 1: map the UNTRIMMED reads to the genome (outputs go in untrimmed/)
+[patel.v9@c0606 3_Variants]$ # sample SRR6805880 (untrimmed)
+[patel.v9@c0606 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U SRR6805880.tiny.fastq -S untrimmed/SRR6805880.untrimmed.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    780 (78.00%) aligned 0 times
+    111 (11.10%) aligned exactly 1 time
+    109 (10.90%) aligned >1 times
+22.00% overall alignment rate
+
+[patel.v9@c0606 3_Variants]$ # sample SRR6805881 (untrimmed)
+[patel.v9@c0606 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U SRR6805881.tiny.fastq -S untrimmed/SRR6805881.untrimmed.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    787 (78.70%) aligned 0 times
+    101 (10.10%) aligned exactly 1 time
+    112 (11.20%) aligned >1 times
+21.30% overall alignment rate
+
+[patel.v9@c0606 3_Variants]$ # sample SRR6805882 (untrimmed)
+[patel.v9@c0606 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U SRR6805882.tiny.fastq -S untrimmed/SRR6805882.untrimmed.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    777 (77.70%) aligned 0 times
+    105 (10.50%) aligned exactly 1 time
+    118 (11.80%) aligned >1 times
+22.30% overall alignment rate
+
+[patel.v9@c0606 3_Variants]$ # sample SRR6805883 (untrimmed)
+[patel.v9@c0606 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U SRR6805883.tiny.fastq -S untrimmed/SRR6805883.untrimmed.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    787 (78.70%) aligned 0 times
+    104 (10.40%) aligned exactly 1 time
+    109 (10.90%) aligned >1 times
+21.30% overall alignment rate
+
+[patel.v9@c0606 3_Variants]$ # sample SRR6805884 (untrimmed)
+[patel.v9@c0606 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U SRR6805884.tiny.fastq -S untrimmed/SRR6805884.untrimmed.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    788 (78.80%) aligned 0 times
+    110 (11.00%) aligned exactly 1 time
+    102 (10.20%) aligned >1 times
+21.20% overall alignment rate
+
+[patel.v9@c0606 3_Variants]$ # sample SRR6805885 (untrimmed)
+[patel.v9@c0606 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U SRR6805885.tiny.fastq -S untrimmed/SRR6805885.untrimmed.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    769 (76.90%) aligned 0 times
+    120 (12.00%) aligned exactly 1 time
+    111 (11.10%) aligned >1 times
+23.10% overall alignment rate
+
+[patel.v9@c0606 3_Variants]$ # IN-CLASS EXERCISE 2: trim adapter AND shorten reads to 70 bp with cutadapt (-l 70), output named *.tiny_trimmed70.fastq
+[patel.v9@c0606 3_Variants]$ cutadapt -g TGCAG -l 70 SRR6805880.tiny.fastq -o trimmed70/SRR6805880.tiny_trimmed70.fastq
+Total reads processed:                   1,000
+Reads with adapters:                     1,000 (100.0%)
+Total basepairs processed:        80,000 bp
+Total written (filtered):         70,000 bp (87.5%)
+
+[patel.v9@c0606 3_Variants]$ cutadapt -g TGCAG -l 70 SRR6805881.tiny.fastq -o trimmed70/SRR6805881.tiny_trimmed70.fastq
+Total reads processed:                   1,000
+Reads with adapters:                     1,000 (100.0%)
+Total basepairs processed:        80,000 bp
+Total written (filtered):         70,000 bp (87.5%)
+
+[patel.v9@c0606 3_Variants]$ cutadapt -g TGCAG -l 70 SRR6805882.tiny.fastq -o trimmed70/SRR6805882.tiny_trimmed70.fastq
+Total reads processed:                   1,000
+Reads with adapters:                     1,000 (100.0%)
+Total basepairs processed:        80,000 bp
+Total written (filtered):         70,000 bp (87.5%)
+
+[patel.v9@c0606 3_Variants]$ cutadapt -g TGCAG -l 70 SRR6805883.tiny.fastq -o trimmed70/SRR6805883.tiny_trimmed70.fastq
+Total reads processed:                   1,000
+Reads with adapters:                     1,000 (100.0%)
+Total basepairs processed:        80,000 bp
+Total written (filtered):         70,000 bp (87.5%)
+
+[patel.v9@c0606 3_Variants]$ cutadapt -g TGCAG -l 70 SRR6805884.tiny.fastq -o trimmed70/SRR6805884.tiny_trimmed70.fastq
+Total reads processed:                   1,000
+Reads with adapters:                     1,000 (100.0%)
+Total basepairs processed:        80,000 bp
+Total written (filtered):         70,000 bp (87.5%)
+
+[patel.v9@c0606 3_Variants]$ cutadapt -g TGCAG -l 70 SRR6805885.tiny.fastq -o trimmed70/SRR6805885.tiny_trimmed70.fastq
+Total reads processed:                   1,000
+Reads with adapters:                     1,000 (100.0%)
+Total basepairs processed:        80,000 bp
+Total written (filtered):         70,000 bp (87.5%)
+
+[patel.v9@c0606 3_Variants]$ # Map the 70 bp trimmed reads
+[patel.v9@c0606 3_Variants]$ # sample SRR6805880 (trimmed to 70 bp)
+[patel.v9@c0606 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U trimmed70/SRR6805880.tiny_trimmed70.fastq -S trimmed70/SRR6805880.trimmed70.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    789 (78.90%) aligned 0 times
+    108 (10.80%) aligned exactly 1 time
+    103 (10.30%) aligned >1 times
+21.10% overall alignment rate
+
+[patel.v9@c0606 3_Variants]$ # sample SRR6805881 (trimmed to 70 bp)
+[patel.v9@c0606 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U trimmed70/SRR6805881.tiny_trimmed70.fastq -S trimmed70/SRR6805881.trimmed70.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    788 (78.80%) aligned 0 times
+    104 (10.40%) aligned exactly 1 time
+    108 (10.80%) aligned >1 times
+21.20% overall alignment rate
+
+[patel.v9@c0606 3_Variants]$ # sample SRR6805882 (trimmed to 70 bp)
+[patel.v9@c0606 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U trimmed70/SRR6805882.tiny_trimmed70.fastq -S trimmed70/SRR6805882.trimmed70.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    774 (77.40%) aligned 0 times
+    116 (11.60%) aligned exactly 1 time
+    110 (11.00%) aligned >1 times
+22.60% overall alignment rate
+
+[patel.v9@c0606 3_Variants]$ # sample SRR6805883 (trimmed to 70 bp)
+[patel.v9@c0606 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U trimmed70/SRR6805883.tiny_trimmed70.fastq -S trimmed70/SRR6805883.trimmed70.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    795 (79.50%) aligned 0 times
+    104 (10.40%) aligned exactly 1 time
+    101 (10.10%) aligned >1 times
+20.50% overall alignment rate
+
+[patel.v9@c0606 3_Variants]$ # sample SRR6805884 (trimmed to 70 bp)
+[patel.v9@c0606 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U trimmed70/SRR6805884.tiny_trimmed70.fastq -S trimmed70/SRR6805884.trimmed70.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    795 (79.50%) aligned 0 times
+    109 (10.90%) aligned exactly 1 time
+    96 (9.60%) aligned >1 times
+20.50% overall alignment rate
+
+[patel.v9@c0606 3_Variants]$ # sample SRR6805885 (trimmed to 70 bp)
+[patel.v9@c0606 3_Variants]$ bowtie2 -x index/Ppar_tinygenome -U trimmed70/SRR6805885.tiny_trimmed70.fastq -S trimmed70/SRR6805885.trimmed70.sam
+1000 reads; of these:
+  1000 (100.00%) were unpaired; of these:
+    774 (77.40%) aligned 0 times
+    112 (11.20%) aligned exactly 1 time
+    114 (11.40%) aligned >1 times
+22.60% overall alignment rate
+
+[patel.v9@c0606 3_Variants]$ # IN-CLASS EXERCISE 3: change the angsd SNP p-value (the original run used 1e-2 and kept 9 SNPs)
+[patel.v9@c0606 3_Variants]$ # SNP_pval = 1e-1
+[patel.v9@c0606 3_Variants]$ angsd -bam bam.filelist -GL 1 -out snp_pvalues/gl_p1e-1 -doMaf 2 -SNP_pval 1e-1 -doMajorMinor 1
+	-> Total number of sites analyzed: 71450
+	-> Number of sites retained after filtering: 54 
+[patel.v9@c0606 3_Variants]$ zcat snp_pvalues/gl_p1e-1.mafs.gz | tail -n +2 | wc -l
+54
+
+[patel.v9@c0606 3_Variants]$ # SNP_pval = 1e-3
+[patel.v9@c0606 3_Variants]$ angsd -bam bam.filelist -GL 1 -out snp_pvalues/gl_p1e-3 -doMaf 2 -SNP_pval 1e-3 -doMajorMinor 1
+	-> Total number of sites analyzed: 71450
+	-> Number of sites retained after filtering: 0 
+[patel.v9@c0606 3_Variants]$ zcat snp_pvalues/gl_p1e-3.mafs.gz | tail -n +2 | wc -l
+0
+
+[patel.v9@c0606 3_Variants]$ # SNP_pval = 1e-6
+[patel.v9@c0606 3_Variants]$ angsd -bam bam.filelist -GL 1 -out snp_pvalues/gl_p1e-6 -doMaf 2 -SNP_pval 1e-6 -doMajorMinor 1
+	-> Total number of sites analyzed: 71450
+	-> Number of sites retained after filtering: 0 
+[patel.v9@c0606 3_Variants]$ zcat snp_pvalues/gl_p1e-6.mafs.gz | tail -n +2 | wc -l
+0
+
