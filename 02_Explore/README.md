@@ -18,3 +18,6 @@ Basic tools for managing and analyzing genomic sequences on Explorer (BIOL 2406)
 ## Status of Tutorial 4 at submission (11:20 PM, Oct 19)
 - Done: SRA download (`01_prefetch.sh`), fastq conversion (`02_fastq_dump.sh`, then `02b_fastq_dump_fix.sh`; all 8 read pairs verified equal), FastQC on two samples with notes (`fastqc_notes.txt`).
 - Still running: the STAR human genome index (`04_star_index.sh`, job 11247994, ~1 h 40 min in, no errors). The STAR alignment (`05_star_align.sh`, job 11247997) is queued and starts automatically when the index finishes; its output will be written to `/scratch/patel.v9/4_STAR_RNAseq/aligned_output/`. The alignment had not started at the time of this note.
+
+## AI assistance
+- Claude (an AI assistant) was used while working on this assignment, including for troubleshooting errors and for interpreting the FastQC quality reports (as the Tutorial 4 instructions suggest).
